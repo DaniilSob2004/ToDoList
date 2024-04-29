@@ -3,7 +3,7 @@
         <h3 class="sign-in">Sign in</h3>
         <div [routerLink]="['/sign-up']" class="button">Register</div>
     </div>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div>
             <label class="user img-block" for="email">
                 <img src="../../../assets/images/email.png" alt="email">
@@ -35,6 +35,9 @@
                 value="Sign in"
                 [disabled]="form.invalid" />
         </div>
+        @if (!isValid) {
+            <span class="error-text">Email or password is incorrect</span>
+        }
         <div>
             <div class="radio-check">   
                 <input
@@ -59,5 +62,5 @@
             <span class="check-label">Remember me</span>
             <span class="forgot-label">Lost your password?</span>
         </div>
-    </form>  
+    </form>
 </div>

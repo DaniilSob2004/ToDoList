@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
   imports: [
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  providers: [
+    UsersService,
   ],
   templateUrl: './sign-in.component.html',
   styleUrls: [
@@ -17,12 +24,32 @@ import { RouterModule } from '@angular/router';
 })
 export class SignInComponent {
   form!: FormGroup;
+  isValid: boolean = true;
 
-  ngOnInit() {
+  constructor(
+    private usersService: UsersService,
+    private router: Router) {}
+
+  ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       remember: new FormControl('no')
     });
+  }
+
+  onSubmit(): void {
+    const { email, password } = this.form.value;
+    this.usersService.getUser(email, password)
+      .subscribe(user => {
+        if (user) {
+          console.log(user);
+          this.usersService.setCookieByAuth(user.id);  // сохранение куки
+          this.router.navigate(['/']);  // перенапрвление
+        }
+        else {
+          this.isValid = false;
+        }
+      });
   }
 }

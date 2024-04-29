@@ -1,5 +1,3 @@
-@if (isAuthorize()) {
+@if(isAuthorized$ | async) {
     <p>home works!</p>
-} @else {
-    <app-sign-in></app-sign-in>
 }

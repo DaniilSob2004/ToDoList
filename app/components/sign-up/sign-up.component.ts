@@ -1,6 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../../config'
@@ -27,9 +27,11 @@ export class SignUpComponent {
   environment: any = environment;
   form!: FormGroup;
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -41,7 +43,7 @@ export class SignUpComponent {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern("[-_a-zA-Z\\d]{8,}")
+        //Validators.pattern("[-_a-zA-Z\\d]{8,}")
       ]),
       confirmPassword: new FormControl('', [
         Validators.required
@@ -53,9 +55,10 @@ export class SignUpComponent {
   onSubmit(): void {
     this.usersService
         .addUser(this.form.value)
-        .subscribe(
-          response => { console.log(response) }
-        );
+        .subscribe(newUser => {
+            this.usersService.setCookieByAuth(newUser.id);  // сохранение куки
+            this.router.navigate(['/']);  // перенапрвление
+        });
   }
 
   checkConfirmPassword(): boolean | undefined {
