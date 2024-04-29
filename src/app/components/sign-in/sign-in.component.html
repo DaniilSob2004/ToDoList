@@ -1,0 +1,63 @@
+<div class="wrapper">
+    <div class="header">
+        <h3 class="sign-in">Sign in</h3>
+        <div [routerLink]="['/sign-up']" class="button">Register</div>
+    </div>
+    <form [formGroup]="form">
+        <div>
+            <label class="user img-block" for="email">
+                <img src="../../../assets/images/email.png" alt="email">
+            </label>
+            <input
+                class="user-input"
+                type="text"
+                email
+                id="email"
+                formControlName="email"
+                placeholder="Your email" />
+            @if (form.get('email')?.invalid && form.get('email')?.touched) {
+                <span class="error-text">Email is invalid</span>
+            }
+        </div> 
+        <div>
+            <label class="lock img-block" for="password">
+                <img src="../../../assets/images/password.png" alt="password"> 
+            </label>
+            <input
+                type="password"
+                id="password"
+                formControlName="password"
+                placeholder="Your password" />
+        </div> 
+        <div>
+            <input
+                type="submit"
+                value="Sign in"
+                [disabled]="form.invalid" />
+        </div>
+        <div>
+            <div class="radio-check">   
+                <input
+                    type="radio"
+                    class="radio-no"
+                    id="no"
+                    formControlName="remember"
+                    name="remember"
+                    value="no"
+                    checked>
+                <label for="no"><i class="fa fa-times"></i></label>  
+                <input
+                    type="radio"
+                    class="radio-yes"
+                    id="yes"
+                    formControlName="remember"
+                    name="remember"
+                    value="yes">
+                <label for="yes"><i class="fa fa-check"></i></label>
+                <span class="switch-selection"></span>
+            </div>
+            <span class="check-label">Remember me</span>
+            <span class="forgot-label">Lost your password?</span>
+        </div>
+    </form>  
+</div>

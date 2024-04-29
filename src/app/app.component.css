@@ -1,0 +1,15 @@
+header {
+    background: #43484e;
+    padding: 10px;
+}
+
+.header-text {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+header, .user_auth {
+    display: flex;
+    justify-content: space-between;
+}

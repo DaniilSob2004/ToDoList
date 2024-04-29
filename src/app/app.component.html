@@ -1,0 +1,14 @@
+<main>
+    <header>
+        <div [routerLink]="['/']" class="header-text">
+            <span>To Do List</span>
+        </div>
+        <div class="user_auth">
+            <div [routerLink]="['/sign-in']" class="button">Sign In</div>
+            <div [routerLink]="['/sign-up']" class="button">Sign Up</div>
+        </div>
+    </header>
+    <section class="content">
+        <router-outlet></router-outlet>
+    </section>
+</main>
