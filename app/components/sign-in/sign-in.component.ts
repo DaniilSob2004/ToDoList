@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -43,8 +44,10 @@ export class SignInComponent {
     this.usersService.getUser(email, password)
       .subscribe(user => {
         if (user) {
-          console.log(user);
           this.usersService.setCookieByAuth(user.id);  // сохранение куки
+          //this.usersService.setCurrentUser();
+          UserService.setCurrentUser(user);  // установка текущего пользователя
+          //UserService.currentUser$.subscribe(user => console.log(user));
           this.router.navigate(['/']);  // перенапрвление
         }
         else {

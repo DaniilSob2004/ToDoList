@@ -1,10 +1,11 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../../config'
 import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -57,6 +58,8 @@ export class SignUpComponent {
         .addUser(this.form.value)
         .subscribe(newUser => {
             this.usersService.setCookieByAuth(newUser.id);  // сохранение куки
+            //this.usersService.setCurrentUser();
+            UserService.setCurrentUser(newUser);  // установка текущего пользователя
             this.router.navigate(['/']);  // перенапрвление
         });
   }

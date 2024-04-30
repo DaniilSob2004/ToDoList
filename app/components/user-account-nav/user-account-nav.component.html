@@ -1,0 +1,9 @@
+<div class="header user_auth">
+    @if (checkAuthorization()) {
+        <span class="welcome-text">Hello {{userName}}</span>
+        <div class="button" (click)="signOut()">Sign Out</div>
+    } @else {
+        <div [routerLink]="['/sign-in']" class="button">Sign In</div>
+        <div [routerLink]="['/sign-up']" class="button">Sign Up</div>
+    }
+</div>

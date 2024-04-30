@@ -6,6 +6,7 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .error-text {
@@ -191,4 +192,10 @@ input[type="radio"] {
   float: right;
   padding: 3px 0;
   cursor: pointer;
+}
+
+.welcome-text {
+  color: #7f8084;
+  font-size: 0.85em;
+  margin-right: 12px;
 }

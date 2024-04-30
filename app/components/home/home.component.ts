@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject } from 'rxjs';
-
-import { environment } from '../../config'
-import { SignInComponent } from '../sign-in/sign-in.component';
 import { RouterModule, Router } from '@angular/router';
+
+import { SignInComponent } from '../sign-in/sign-in.component';
+import { ListProjectsComponent } from '../list-projects/list-projects.component';
+import { UserService } from '../../services/user.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,28 +13,18 @@ import { RouterModule, Router } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    SignInComponent
+    SignInComponent,
+    ListProjectsComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  isAuthorized$ = new BehaviorSubject<boolean>(false);
+  constructor(private router: Router) {}
 
-  constructor(
-    private cookieService: CookieService,
-    private router: Router) {}
-
-  ngOnInit(): void {
-    this.checkAuthorization();
-  }
-
-  private checkAuthorization(): void {
-    const isAuthorize = this.cookieService.get(environment.authorizeCookieName);
-    this.isAuthorized$.next(!!isAuthorize);
-
-    if (!isAuthorize) {
-      this.router.navigate(['/sign-in']);
-    }
+  checkAuthorization(): Observable<boolean> {
+    return UserService.currentUser$.pipe(
+      map(user => !!user)
+    );
   }
 }

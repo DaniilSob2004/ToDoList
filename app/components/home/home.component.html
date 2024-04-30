@@ -1,3 +1,5 @@
-@if(isAuthorized$ | async) {
-    <p>home works!</p>
+@if (checkAuthorization() | async) {
+    <section>
+        <app-list-projects></app-list-projects>
+    </section>
 }

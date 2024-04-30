@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { User } from '../interfaces/user'
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../config'
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,25 @@ export class UsersService {
 
   setCookieByAuth(userId: string): void {
     const expiryDate = new Date();
-    expiryDate.setTime(expiryDate.getTime() + (1 * 60 * 1000));  // 1 мин
+    expiryDate.setTime(expiryDate.getTime() + (10 * 60 * 1000));
     this.cookieService.set(environment.authorizeCookieName, userId, expiryDate);
+  }
+
+  getCookieByAuth(): string {
+    return this.cookieService.get(environment.authorizeCookieName);
+  }
+
+
+  setCurrentUser(): void {
+    this.getUserbyId(this.getCookieByAuth())
+      .subscribe(user => {
+        UserService.setCurrentUser(user);
+      });
+  }
+
+
+  deleteCookieByAuth(): void {
+    this.cookieService.delete(environment.authorizeCookieName);
   }
 
   getUsers(): Observable<User[]> {
