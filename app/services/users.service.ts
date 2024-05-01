@@ -45,6 +45,19 @@ export class UsersService {
     this.router.navigate(['/']);  // перенапрвление
   }
 
+  isAuthorizedUser(): boolean {
+    const userId = this.getCookieByAuth();
+    const isAuth = UserService.isLoggedIn();
+  
+    // дополнительно проверяется и cookie, т.к. при обновлении страницы, не сразу
+    // получаем корректные данные по свойству isAuth
+    if (!isAuth && !userId) {
+      this.router.navigate(['/sign-in']);
+      return false;
+    }
+    return true;
+  }
+
 
   setCookieByAuth(userId: string): void {
     const expiryDate = new Date();

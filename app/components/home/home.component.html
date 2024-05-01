@@ -1,4 +1,4 @@
-@if (checkAuthorization()) {
+@if (usersService.isAuthorizedUser()) {
     <section>
         <app-list-projects></app-list-projects>
     </section>

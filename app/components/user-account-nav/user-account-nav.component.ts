@@ -25,9 +25,9 @@ import { UserService } from '../../services/user.service';
   ]
 })
 export class UserAccountNavComponent implements OnInit, OnDestroy {
-  userName: string | undefined;
   private currentUserSubscription: Subscription | undefined;
-
+  userName: string | undefined;
+  
   constructor(public usersService: UsersService) {}
 
   ngOnInit(): void {
@@ -45,9 +45,5 @@ export class UserAccountNavComponent implements OnInit, OnDestroy {
 
   checkAuthorization(): boolean {
     return UserService.isLoggedIn();
-  }
-
-  signOut(): void {
-    this.usersService.logoutUser();
   }
 }

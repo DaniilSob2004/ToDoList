@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { UsersService } from '../../services/users.service';
 
@@ -10,11 +10,10 @@ import { UsersService } from '../../services/users.service';
   standalone: true,
   imports: [
     RouterModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ],
   providers: [
-    UsersService,
+    UsersService
   ],
   templateUrl: './sign-in.component.html',
   styleUrls: [
@@ -22,12 +21,12 @@ import { UsersService } from '../../services/users.service';
     '../../../register_form.css'
   ]
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit, OnDestroy {
+  private userSubscription: Subscription | undefined;
   form!: FormGroup;
   isValid: boolean = true;
 
-  constructor(
-    private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -37,9 +36,15 @@ export class SignInComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   onSubmit(): void {
     const { email, password } = this.form.value;
-    this.usersService.getUser(email, password)
+    this.userSubscription = this.usersService.getUser(email, password)
       .subscribe(user => {
         if (user) {
           this.usersService.signInUser(user);

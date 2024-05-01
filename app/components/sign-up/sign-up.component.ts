@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { environment } from '../../config'
 import { UsersService } from '../../services/users.service';
@@ -11,8 +11,7 @@ import { UsersService } from '../../services/users.service';
   standalone: true,
   imports: [
     RouterModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ],
   providers: [
     UsersService
@@ -23,12 +22,12 @@ import { UsersService } from '../../services/users.service';
     '../../../register_form.css'
   ]
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit, OnDestroy {
+  private userSubscription: Subscription | undefined;
   environment: any = environment;
   form!: FormGroup;
 
-  constructor(
-    private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -51,12 +50,18 @@ export class SignUpComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   onSubmit(): void {
-    this.usersService
-        .addUser(this.form.value)
-        .subscribe(newUser => {
-            this.usersService.signInUser(newUser);
-        });
+    this.userSubscription = this.usersService
+      .addUser(this.form.value)
+      .subscribe(newUser => {
+        this.usersService.signInUser(newUser);
+      });
   }
 
   checkConfirmPassword(): boolean | undefined {
