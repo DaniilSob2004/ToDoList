@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../../config'
 import { UsersService } from '../../services/users.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,8 +28,7 @@ export class SignUpComponent {
   form!: FormGroup;
 
   constructor(
-    private usersService: UsersService,
-    private router: Router) {}
+    private usersService: UsersService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -57,10 +55,7 @@ export class SignUpComponent {
     this.usersService
         .addUser(this.form.value)
         .subscribe(newUser => {
-            this.usersService.setCookieByAuth(newUser.id);  // сохранение куки
-            //this.usersService.setCurrentUser();
-            UserService.setCurrentUser(newUser);  // установка текущего пользователя
-            this.router.navigate(['/']);  // перенапрвление
+            this.usersService.signInUser(newUser);
         });
   }
 

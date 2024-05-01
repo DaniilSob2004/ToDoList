@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { User } from '../interfaces/user'
 import { CookieService } from 'ngx-cookie-service';
@@ -15,11 +16,35 @@ export class UsersService {
 
   constructor(
     private http: HttpClient,
-    private cookieService: CookieService) {}
+    private cookieService: CookieService,
+    private router: Router) {
+      this.setCurrentUser();  // установка текущего пользователя в сервисе
+  }
 
-  private getRandomInt(min: number = 100, max: number = 100000000) {
+  private getRandomInt(min: number = 10, max: number = 100000000) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+
+  setCurrentUser(): void {
+    this.getUserbyId(this.getCookieByAuth())
+    .subscribe(user => {
+      UserService.setCurrentUser(user);
+    });
+  }
+
+  logoutUser(): void {
+    this.deleteCookieByAuth();
+    UserService.logout();
+    this.router.navigate(['/sign-in']);
+  }
+
+  signInUser(user: User): void {
+    this.setCookieByAuth(user.id);  // сохранение куки
+    UserService.setCurrentUser(user);  // установка текущего пользователя
+    this.router.navigate(['/']);  // перенапрвление
+  }
+
 
   setCookieByAuth(userId: string): void {
     const expiryDate = new Date();
@@ -31,19 +56,11 @@ export class UsersService {
     return this.cookieService.get(environment.authorizeCookieName);
   }
 
-
-  setCurrentUser(): void {
-    this.getUserbyId(this.getCookieByAuth())
-      .subscribe(user => {
-        UserService.setCurrentUser(user);
-      });
-  }
-
-
   deleteCookieByAuth(): void {
     this.cookieService.delete(environment.authorizeCookieName);
   }
 
+  
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.url);
   }
