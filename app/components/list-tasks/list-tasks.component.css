@@ -1,0 +1,16 @@
+section {
+    margin: 15px;
+    margin-top: 20px;
+    color: var(--main-color-text-2);
+}
+
+.tasks-block {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    border: 1px solid var(--main-color-border);
+    border-radius: 5px;
+    padding: 10px;
+}

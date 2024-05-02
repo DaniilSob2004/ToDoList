@@ -3,6 +3,8 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 
 import { UserAccountNavComponent } from './components/user-account-nav/user-account-nav.component';
 import { UsersService } from './services/users.service';
+import { ProjectsService } from './services/projects.service';
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,9 @@ import { UsersService } from './services/users.service';
     UserAccountNavComponent
   ],
   providers: [
-    UsersService
+    UsersService,
+    ProjectsService,
+    TasksService
   ],
   templateUrl: './app.component.html',
   styleUrls: [

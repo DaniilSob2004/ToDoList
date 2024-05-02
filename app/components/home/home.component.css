@@ -1,0 +1,11 @@
+section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: minmax(250px, 400px) 1fr;
+    flex-grow: 1;
+}

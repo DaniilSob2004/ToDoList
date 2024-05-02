@@ -1,1 +1,14 @@
-<p>list-projects works!</p>
+<section>
+    <div class="container">
+        <p class="label">My projects</p>
+        @for (project of projects; track project.id) {
+            <div class="item" (click)="choiceProject(project)">
+                <span>{{project.title}}</span>
+            </div>
+        } @empty {
+            <div class="info-label">
+                <p>You have no projects...</p>
+            </div>
+        }
+    </div>
+</section>

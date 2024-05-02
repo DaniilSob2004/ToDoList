@@ -1,0 +1,17 @@
+<section>
+    <div class="tasks-block">
+        @for (task of tasks; track task.id) {
+            <div class="item">
+                <p>Title: {{task.title}}</p>
+                <p>Target time: {{task.targetTime}}</p>
+                <p>Description: {{task.description}}</p>
+                <p>Tags: {{task.tags.length}}</p>
+                <p>Priority: {{task.priority}}</p>
+            </div>
+        } @empty {
+            <div>
+                <p>Select one of the projects...</p>
+            </div>
+        }
+    </div>
+</section>

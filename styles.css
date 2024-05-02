@@ -1,5 +1,17 @@
+:root {
+    --main-color-bg: #1a1f25;
+    --main-color-bg-2: #3b4149;
+    --main-color-text: #7f8084;
+    --main-color-text-2: #aaaaac;
+    --hover-color-text: #818181;
+    --main-color-border: #7f8084;
+}
+
 html, body {
     background: #1a1f25;
     font-family: 'Roboto', sans-serif;
     color: white;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }

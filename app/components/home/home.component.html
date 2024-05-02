@@ -1,5 +1,9 @@
 @if (usersService.isAuthorizedUser()) {
     <section>
-        <app-list-projects></app-list-projects>
+        <app-filter-panel></app-filter-panel>
+        <div class="main">
+            <app-list-projects (projectSelected)="onProjectSelected($event)"></app-list-projects>
+            <app-list-tasks [selectedProject]="selectedProject"></app-list-tasks>
+        </div>
     </section>
 }

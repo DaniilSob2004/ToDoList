@@ -1,0 +1,30 @@
+section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--main-color-text);
+    max-width: 600px;
+    margin: 10px;
+}
+
+.search-block {
+    margin-left: 25px;
+}
+.search-block label {
+    margin-right: 5px;
+}
+
+input,
+select {
+    color: var(--main-color-text);
+    background-color: var(--main-color-bg-2);
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+input {
+    outline: none;
+    font-size: 1em;
+    flex: 1;
+}

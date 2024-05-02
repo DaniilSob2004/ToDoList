@@ -46,7 +46,7 @@ form {
 }
 
 .button {
-  color: #7f8084;
+  color: var(--main-color-text);
   border: 1px solid #22272d;
   padding: 7px 15px;
   border-radius: 3px;
@@ -178,7 +178,7 @@ input[type="radio"] {
 
 .check-label {
   font-size: 0.8em;
-  color: #7f8084;
+  color: var(--main-color-text);
   margin-top: 10px;
   float: left;
   padding: 3px 0;
@@ -187,7 +187,6 @@ input[type="radio"] {
 
 .forgot-label {
   font-size: 0.8em;
-  color: #7f8084;
   margin-top: 10px;
   float: right;
   padding: 3px 0;
@@ -195,7 +194,12 @@ input[type="radio"] {
 }
 
 .welcome-text {
-  color: #7f8084;
   font-size: 0.85em;
   margin-right: 12px;
+}
+
+.base-text,
+.welcome-text,
+.forgot-label {
+  color: var(--main-color-text);
 }
