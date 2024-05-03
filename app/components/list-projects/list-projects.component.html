@@ -3,14 +3,38 @@
         @if (!isCreateProject) {
             <div class="add-block">
                 <p class="label">My projects</p>
-                <div class="button add-btn" (click)="isCreateProject = true;">+</div>
+                <div
+                  class="button tools-btn"
+                  (click)="isCreateProject = true;">
+                  +
+                </div>
             </div>
             @for (project of projects; track project.id) {
                 <div
                   class="item"
                   [ngClass]="{'choice-item' : selectedProject === project}"
-                  (click)="onSelectedProject(project)">
-                    <span>{{project.title}}</span>
+                  (click)="onSelectedProject(project)"
+                  (contextmenu)="onContextMenu($event, project)">
+                    @if (isEditProject && contextMenuProject?.id === project.id) {
+                        <div class="edit-block">
+                            <input
+                              class="input"
+                              type="text"
+                              [(ngModel)]="editTextProject" />
+                            <div
+                              class="button tools-btn"
+                              (click)="editProject()">
+                              ✔
+                            </div>
+                            <div
+                              class="button tools-btn"
+                              (click)="isEditProject = false;">
+                              ❌
+                            </div>
+                        </div>
+                    } @else {
+                        <span>{{project.title}}</span>
+                    }
                 </div>
             } @empty {
                 <div class="info-label">
@@ -18,7 +42,16 @@
                 </div>
             }
         } @else {
-            <app-add-project-form (successAddProject)="successAddProject($event)"></app-add-project-form>
+            <app-add-project-form (responseAddProject)="responseAddProject($event)"></app-add-project-form>
         }
     </div>
 </section>
+
+<div id="contextMenu"
+     class="context-menu"
+     tabindex="-1">
+    <ul>
+      <li (click)="onIsEditProject()">Edit</li>
+      <li (click)="deleteProject()">Delete</li>
+    </ul>
+</div>

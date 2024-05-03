@@ -22,7 +22,7 @@ import { Project } from '../../interfaces/project'
 })
 export class AddProjectFormComponent implements OnInit, OnDestroy {
   private projectSubscription: Subscription | undefined;
-  @Output() successAddProject: EventEmitter<Project> = new EventEmitter<Project>();
+  @Output() responseAddProject: EventEmitter<Project> = new EventEmitter<Project>();
   form!: FormGroup;
 
   constructor(private projectsService: ProjectsService) {}
@@ -39,11 +39,15 @@ export class AddProjectFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  cancelForm(): void {
+    this.responseAddProject.emit(undefined);
+  }
+
   onSubmit(): void {
     const { title } = this.form.value;
     this.projectSubscription = this.projectsService.addProject(title)
       .subscribe(project => {
-        this.successAddProject.emit(project);
+        this.responseAddProject.emit(project);
       });
   }
 }

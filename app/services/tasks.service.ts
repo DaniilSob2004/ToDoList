@@ -1,33 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 
 import { Task } from '../interfaces/task';
-import { ProjectTask } from '../interfaces/project-task';
+import { ProjectTasksService } from './project-tasks.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  urlTask = 'http://localhost:3000/tasks';
-  urlProjectTask = 'http://localhost:3000/project-tasks';
+  url = 'http://localhost:3000/tasks/';
 
-  constructor(private http: HttpClient) { }
-
-  private getProjectTasks(projectId: string): Observable<ProjectTask[]> {
-    return this.http.get<ProjectTask[]>(this.urlProjectTask).pipe(
-      map(pts => pts.filter(pt => pt.idProject === projectId))
-    );
-  }
+  constructor(
+    private http: HttpClient,
+    private projectTasksService: ProjectTasksService) { }
 
   getTasks(projectId: string): Observable<Task[]> {
-    return this.getProjectTasks(projectId).pipe(
+    return this.projectTasksService.getProjectTasks(projectId).pipe(
       switchMap(projectTasks => {
-        return this.http.get<Task[]>(this.urlTask).pipe(
+        return this.http.get<Task[]>(this.url).pipe(
           map(tasks => {
             return tasks.filter(task => projectTasks.some(pt => pt.idTask === task.id));
           })
         );
+      })
+    );
+  }
+
+  deleteTask(id: string): Observable<Task> {
+    return this.http.delete<Task>(`${this.url}${id}`);
+  }
+
+  deleteTasks(projectId: string): Observable<Task[]> {
+    return this.getTasks(projectId).pipe(
+      switchMap(tasks => {
+        const deleteObservables: Observable<Task>[] = [];
+        tasks.forEach(task => {
+          deleteObservables.push(this.deleteTask(task.id));
+        });
+        return forkJoin(deleteObservables);
       })
     );
   }

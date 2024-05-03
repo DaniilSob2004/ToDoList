@@ -21,10 +21,20 @@ section {
     justify-content: space-between;
     align-items:baseline;
 }
-.add-btn {
+.tools-btn {
     font-weight: bold;
-    font-size: 1.1em;
-    width: fit-content;
+    text-align: center;
+    width: 35px;
+    padding: 0px;
+}
+
+.edit-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.edit-block div {
+    margin-left: 5px;
 }
 
 .container {

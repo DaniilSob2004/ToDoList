@@ -6,27 +6,46 @@ import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../interfaces/project';
 import { UsersService } from '../../services/users.service';
 import { AddProjectFormComponent } from '../add-project-form/add-project-form.component';
+import { TasksService } from '../../services/tasks.service';
+import { ProjectTasksService } from '../../services/project-tasks.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list-projects',
   standalone: true,
   imports: [
     CommonModule,
-    AddProjectFormComponent
+    AddProjectFormComponent,
+    FormsModule
+  ],
+  providers: [
+    TasksService,
+    ProjectTasksService,
+    UsersService,
+    ProjectsService
   ],
   templateUrl: './list-projects.component.html',
   styleUrl: './list-projects.component.css'
 })
 export class ListProjectsComponent implements OnInit, OnDestroy {
   private projectsSubscription: Subscription | undefined;
+  private tasksSubscription: Subscription | undefined;
+  private projectTasksSubscription: Subscription | undefined;
+  private editProjectSubscription: Subscription | undefined;
+  
   @Output() projectSelected: EventEmitter<Project> = new EventEmitter<Project>();
   projects: Project[] = [];
   selectedProject: Project | undefined = undefined;
+  contextMenuProject: Project | undefined = undefined;
   isCreateProject: boolean = false;
+  isEditProject: boolean = false;
+  editTextProject: string = '';
 
   constructor(
     private usersService: UsersService,
-    private projectsService: ProjectsService) {}
+    private projectsService: ProjectsService,
+    private tasksService: TasksService,
+    private projectTasksService: ProjectTasksService) {}
 
   ngOnInit(): void {
     this.projectsSubscription = this.projectsService.getProjects(this.usersService.getCookieByAuth())
@@ -37,19 +56,86 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.projectsSubscription) {
-      this.projectsSubscription.unsubscribe();
+    if (this.projectsSubscription) { this.projectsSubscription.unsubscribe(); }
+    if (this.tasksSubscription) { this.tasksSubscription.unsubscribe(); }
+    if (this.projectTasksSubscription) { this.projectTasksSubscription.unsubscribe(); }
+    if (this.editProjectSubscription) { this.editProjectSubscription.unsubscribe(); }
+  }
+
+  onSelectedProject(project: Project | undefined): void {
+    if (!this.isEditProject) {
+      this.selectedProject = project;
+      this.projectSelected.emit(project);
     }
   }
 
-  onSelectedProject(project: Project): void {
-    this.selectedProject = project;
-    this.projectSelected.emit(project);
+  responseAddProject(project: Project) {
+    this.isCreateProject = false;
+    if (project) { this.projects.push(project); }
   }
 
-  successAddProject(project: Project) {
-    console.log(project);
-    this.isCreateProject = false;
-    this.projects.push(project);
+  // Context menu
+  onContextMenu(event: any, project: Project): void {
+    event.preventDefault();
+    
+    this.contextMenuProject = project;
+
+    const contextMenu = document.getElementById('contextMenu');
+    if (contextMenu) {
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = event.pageX + 'px';
+      contextMenu.style.top = event.pageY + 'px';
+      contextMenu.focus();
+      contextMenu.addEventListener('blur', () => contextMenu.style.display = 'none');
+    }
+  }
+
+  onIsEditProject(): void {
+    if (this.contextMenuProject) {
+      this.isEditProject = true;
+      this.editTextProject = this.contextMenuProject?.title;
+      this.hideContextMenu();
+    }
+  }
+
+  editProject(): void {
+    if (this.contextMenuProject) {
+      this.editProjectSubscription = this.projectsService
+        .changeProject(this.contextMenuProject, this.editTextProject)
+        .subscribe(() => this.isEditProject = false);
+    }
+  }
+
+  deleteProject(): void {
+    if (this.contextMenuProject) {
+      const projectId = this.contextMenuProject.id;
+
+      // удаление все задач связанных с этим проектом
+      this.tasksSubscription = this.tasksService.deleteTasks(projectId)
+        .subscribe(tasks => console.log(tasks));
+
+      // удаление связей из таблицы Project-Tasks
+      this.projectTasksSubscription = this.projectTasksService.deleteProjectTasks(projectId)
+        .subscribe(ptList => console.log(ptList));
+      
+      // удаление проекта
+      this.projectsService.deleteProject(projectId)
+        .subscribe(delProject => {
+          this.projects = this.projects.filter(proj => proj.id !== delProject.id);
+          if (delProject.id === this.selectedProject?.id) {
+            this.projectSelected.emit(undefined);
+            this.contextMenuProject = undefined;
+          }
+        });
+
+      this.hideContextMenu();
+    }
+  }
+
+  hideContextMenu(): void {
+    const contextMenu = document.getElementById('contextMenu');
+    if (contextMenu) {
+      contextMenu.style.display = 'none';
+    }
   }
 }

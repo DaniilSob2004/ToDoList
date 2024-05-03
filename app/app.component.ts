@@ -5,6 +5,7 @@ import { UserAccountNavComponent } from './components/user-account-nav/user-acco
 import { UsersService } from './services/users.service';
 import { ProjectsService } from './services/projects.service';
 import { TasksService } from './services/tasks.service';
+import { ProjectTasksService } from './services/project-tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { TasksService } from './services/tasks.service';
   providers: [
     UsersService,
     ProjectsService,
-    TasksService
+    TasksService,
+    ProjectTasksService
   ],
   templateUrl: './app.component.html',
   styleUrls: [

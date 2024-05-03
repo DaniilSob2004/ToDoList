@@ -10,7 +10,7 @@ import { UsersService } from './users.service';
   providedIn: 'root'
 })
 export class ProjectsService {
-  url = 'http://localhost:3000/projects';
+  url = 'http://localhost:3000/projects/';
 
   constructor(
     private http: HttpClient,
@@ -26,5 +26,14 @@ export class ProjectsService {
     const id = getRandomInt().toString();
     const idUser = this.usersService.getCookieByAuth();
     return this.http.post<Project>(this.url, { id, idUser, title });
+  }
+
+  deleteProject(id: string): Observable<Project> {
+    return this.http.delete<Project>(`${this.url}${id}`);
+  }
+
+  changeProject(project: Project, newTitle: string): Observable<Project> {
+    project.title = newTitle;
+    return this.http.put<Project>(`${this.url}${project.id}`, project);
   }
 }
