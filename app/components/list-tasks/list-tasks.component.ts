@@ -1,16 +1,17 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Task } from '../../interfaces/task';
 import { Project } from '../../interfaces/project';
 import { TasksService } from '../../services/tasks.service';
+import { DtStrByMsPipe } from '../../pipes/dt-str-by-ms.pipe';
 
 @Component({
-  selector: 'app-list-tasks',
-  standalone: true,
-  imports: [],
-  templateUrl: './list-tasks.component.html',
-  styleUrl: './list-tasks.component.css'
+    selector: 'app-list-tasks',
+    standalone: true,
+    imports: [DtStrByMsPipe],
+    templateUrl: './list-tasks.component.html',
+    styleUrl: './list-tasks.component.css'
 })
 export class ListTasksComponent implements OnChanges, OnDestroy {
   private tasksSubscription: Subscription | undefined;

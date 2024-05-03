@@ -1,14 +1,19 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../interfaces/project';
 import { UsersService } from '../../services/users.service';
+import { AddProjectFormComponent } from '../add-project-form/add-project-form.component';
 
 @Component({
   selector: 'app-list-projects',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    AddProjectFormComponent
+  ],
   templateUrl: './list-projects.component.html',
   styleUrl: './list-projects.component.css'
 })
@@ -16,6 +21,8 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   private projectsSubscription: Subscription | undefined;
   @Output() projectSelected: EventEmitter<Project> = new EventEmitter<Project>();
   projects: Project[] = [];
+  selectedProject: Project | undefined = undefined;
+  isCreateProject: boolean = false;
 
   constructor(
     private usersService: UsersService,
@@ -35,8 +42,14 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  choiceProject(project: Project): void {
+  onSelectedProject(project: Project): void {
+    this.selectedProject = project;
+    this.projectSelected.emit(project);
+  }
+
+  successAddProject(project: Project) {
     console.log(project);
-    this.projectSelected.emit(project);  // вызываем родительский обработчик
+    this.isCreateProject = false;
+    this.projects.push(project);
   }
 }

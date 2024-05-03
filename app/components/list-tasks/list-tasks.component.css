@@ -5,12 +5,16 @@ section {
 }
 
 .tasks-block {
-    display: flex;
-    flex-wrap: wrap;
+    width: 450px;
 }
 
-.item {
-    border: 1px solid var(--main-color-border);
-    border-radius: 5px;
-    padding: 10px;
+.table-wrapper {
+    overflow-x: auto;   
+}
+
+.table,
+.table th,
+.table td,
+caption {
+    color: var(--main-color-text-2);
 }

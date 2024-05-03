@@ -45,18 +45,6 @@ form {
   font-size: 1.3em;
 }
 
-.button {
-  color: var(--main-color-text);
-  border: 1px solid #22272d;
-  padding: 7px 15px;
-  border-radius: 3px;
-  font-size: 0.8em;
-  cursor: pointer;
-}
-.button:hover {
-  color: #d3d3d3;
-}
-
 .lock {
   position: absolute;
   width: 30px;
@@ -100,6 +88,7 @@ input {
   border-radius: 3px;
   margin: 10px 0;
   outline: none;
+  font-size: 0.83em;
 }
 
 input[type="text"]:focus, input[type="password"]:focus {

@@ -16,6 +16,17 @@ section {
     font-size: 0.95em;
 }
 
+.add-block {
+    display: flex;
+    justify-content: space-between;
+    align-items:baseline;
+}
+.add-btn {
+    font-weight: bold;
+    font-size: 1.1em;
+    width: fit-content;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -33,6 +44,7 @@ section {
     padding: 10px;
     cursor: pointer;
 }
-.item:hover {
+.item:hover,
+.choice-item {
     color: var(--hover-color-text);
 }

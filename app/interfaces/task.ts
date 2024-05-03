@@ -7,7 +7,7 @@ export enum Priority {
 export interface Task {
     id: string,
     title: string,
-    targetTime: Date,
+    targetTime: number,
     description: string,
     tags: string[],
     priority: Priority

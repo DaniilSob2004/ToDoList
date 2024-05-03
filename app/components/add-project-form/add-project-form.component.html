@@ -1,0 +1,24 @@
+<section>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div>
+            <label class="user img-block" for="title">
+                <img src="../../../assets/images/title.png" alt="title">
+            </label>
+            <input
+                class="user-input"
+                type="text"
+                id="title"
+                formControlName="title"
+                placeholder="Project title" />
+            @if (form.get('title')?.invalid && form.get('title')?.touched) {
+                <span class="error-text">Title is invalid</span>
+            }
+        </div>
+        <div>
+            <input
+                type="submit"
+                value="Add"
+                [disabled]="form.invalid" />
+        </div>
+    </form>
+</section>

@@ -15,3 +15,15 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+.button {
+    color: var(--main-color-text);
+    border: 1px solid #22272d;
+    padding: 7px 15px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+.button:hover {
+    color: #d3d3d3;
+}

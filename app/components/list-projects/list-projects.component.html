@@ -1,14 +1,24 @@
 <section>
     <div class="container">
-        <p class="label">My projects</p>
-        @for (project of projects; track project.id) {
-            <div class="item" (click)="choiceProject(project)">
-                <span>{{project.title}}</span>
+        @if (!isCreateProject) {
+            <div class="add-block">
+                <p class="label">My projects</p>
+                <div class="button add-btn" (click)="isCreateProject = true;">+</div>
             </div>
-        } @empty {
-            <div class="info-label">
-                <p>You have no projects...</p>
-            </div>
+            @for (project of projects; track project.id) {
+                <div
+                  class="item"
+                  [ngClass]="{'choice-item' : selectedProject === project}"
+                  (click)="onSelectedProject(project)">
+                    <span>{{project.title}}</span>
+                </div>
+            } @empty {
+                <div class="info-label">
+                    <p>You have no projects...</p>
+                </div>
+            }
+        } @else {
+            <app-add-project-form (successAddProject)="successAddProject($event)"></app-add-project-form>
         }
     </div>
 </section>
