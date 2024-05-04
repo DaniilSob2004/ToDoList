@@ -6,6 +6,6 @@ section {
 
 .main {
     display: grid;
-    grid-template-columns: minmax(300px, 25%) 1fr;
+    grid-template-columns: minmax(325px, 25%) 1fr;
     flex-grow: 1;
 }

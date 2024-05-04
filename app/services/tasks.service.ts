@@ -4,6 +4,7 @@ import { Observable, forkJoin, map, switchMap } from 'rxjs';
 
 import { Task } from '../interfaces/task';
 import { ProjectTasksService } from './project-tasks.service';
+import { getRandomInt } from '../shared/random';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,11 @@ export class TasksService {
         );
       })
     );
+  }
+
+  addTask(task: Task): Observable<Task> {
+    task.id = getRandomInt().toString();
+    return this.http.post<Task>(this.url, task);
   }
 
   deleteTask(id: string): Observable<Task> {

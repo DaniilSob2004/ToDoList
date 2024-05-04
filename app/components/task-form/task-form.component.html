@@ -1,0 +1,85 @@
+<section>
+    <div class="button back-btn" (click)="cancelForm()">Cancel</div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div>
+            <label class="user img-block" for="title">
+                <img src="../../../assets/images/title.png" alt="title">
+            </label>
+            <input
+                class="input"
+                type="text"
+                id="title"
+                formControlName="title"
+                placeholder="Title" />
+            @if (form.get('title')?.invalid && form.get('title')?.touched) {
+                <span class="error-text">Title is invalid</span>
+            }
+        </div>
+    
+        <div>
+            <input
+              type="date"
+              id="date"
+              formControlName="date">
+            @if (form.get('date')?.invalid && form.get('date')?.touched) {
+                <span class="error-text">Target date is invalid</span>
+            }
+        </div>
+
+        <div>
+            <input
+              type="time"
+              id="time"
+              formControlName="time">
+            @if (form.get('time')?.invalid && form.get('time')?.touched) {
+                <span class="error-text">Target time is invalid</span>
+            }
+        </div>
+    
+        <div>
+            <label class="user img-block" for="description">
+                <img src="../../../assets/images/description.png" alt="description">
+            </label>
+            <input
+                class="input"
+                type="text"
+                id="description"
+                formControlName="description"
+                placeholder="Description" />
+            @if (form.get('description')?.invalid && form.get('description')?.touched) {
+                <span class="error-text">Description is invalid</span>
+            }
+        </div>
+    
+        <div>
+            <label class="user img-block" for="tags">
+                <img src="../../../assets/images/tags.png" alt="tags">
+            </label>
+            <input
+                class="input"
+                type="text"
+                id="tags"
+                formControlName="tags"
+                placeholder="#tag1,#tag2,...,#tagn" />
+            @if (form.get('tags')?.invalid && form.get('tags')?.touched) {
+                <span class="error-text">Tags is invalid</span>
+            }
+        </div>
+    
+        <div class="priority-block">
+            <label>Choice priority:</label>
+            <select formControlName="priority">
+                @for (priority of priorityArr; track $index) {
+                    <option>{{priority}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <input
+                type="submit"
+                value="Create"
+                [disabled]="form.invalid" />
+        </div>
+    </form>
+</section>

@@ -1,9 +1,15 @@
-section {
+.container {
     display: flex;
     color: var(--main-color-text-2);
     letter-spacing: 0.5px;
     margin: 10px;
-    height: 95%;
+}
+
+.items {
+    height: 650px;
+    overflow-x: auto;
+    padding: 5px;
+    margin-top: 10px;
 }
 
 .label {
@@ -21,11 +27,11 @@ section {
     justify-content: space-between;
     align-items:baseline;
 }
-.tools-btn {
-    font-weight: bold;
+
+.button-setting {
+    width: 30px;
+    padding: 0;
     text-align: center;
-    width: 35px;
-    padding: 0px;
 }
 
 .edit-block {

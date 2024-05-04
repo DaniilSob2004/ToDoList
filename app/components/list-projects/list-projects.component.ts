@@ -72,7 +72,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  responseAddProject(project: Project) {
+  responseAddProject(project: Project | undefined) {
     this.isCreateProject = false;
     if (project) { this.projects.push(project); }
   }
@@ -87,7 +87,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   onIsEditProject(): void {
     if (this.contextMenuProject) {
       this.isEditProject = true;
-      this.editTextProject = this.contextMenuProject?.title;
+      this.editTextProject = this.contextMenuProject.title;
       this.contextMenuCoords = undefined;
     }
   }

@@ -1,6 +1,7 @@
 section {
     margin: 15px;
-    margin-top: 20px;
+    margin-left: 25px;
+    margin-top: 23px;
     color: var(--main-color-text-2);
 }
 
@@ -8,8 +9,13 @@ section {
     width: 100%;
 }
 
+.title {
+    text-decoration:underline;
+    font-style: italic;
+}
+
 .table-wrapper {
-    overflow-x: auto;   
+    overflow-x: auto;  
 }
 
 .table,
@@ -17,4 +23,14 @@ section {
 .table td,
 caption {
     color: var(--main-color-text-2);
+}
+
+tr:hover > td {
+    cursor: default;
+    color: var(--hover-color-text);
+}
+
+.add-btn {
+    width: fit-content;
+    margin-bottom: 10px;
 }

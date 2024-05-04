@@ -1,0 +1,29 @@
+section {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.back-btn {
+    width: fit-content;
+}
+
+input[type="date"],
+input[type="time"],
+.priority-block select {
+    color: var(--main-color-text);
+    background-color: var(--main-color-bg);
+    border: 2px solid var(--main-color-border-2);
+}
+
+.priority-block {
+    display: flex;
+    align-items: center;
+}
+.priority-block label {
+    width: fit-content;
+}
+.priority-block select {
+    padding: 7px;
+    margin-left: 10px;
+    flex: 1;
+}
