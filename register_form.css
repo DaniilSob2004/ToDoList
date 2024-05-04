@@ -119,6 +119,9 @@ input[type="radio"] {
 }
 
 .radio-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   width: 50px;
   height: 20px;
   border: 1px solid #22272d;
@@ -132,7 +135,7 @@ input[type="radio"] {
   position: relative;
 }
 .radio-check label {
-  margin: 0 2px;
+  margin: 0 4px;
   cursor: pointer;
 }
 .radio-check .switch-selection {
@@ -142,14 +145,14 @@ input[type="radio"] {
   height: 11px;
   border-radius: 50%;
   background: #babbbd;
-  margin-top: -11px;
-  margin-left: 11px;
+  margin-top: 0px;
+  margin-left: -20px;
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
 
 .radio-yes:checked ~ .switch-selection {
-  margin-left: 25px !important;
+  margin-left: 22px !important;
 }
 
 .check-label {

@@ -47,11 +47,10 @@
     </div>
 </section>
 
-<div id="contextMenu"
-     class="context-menu"
-     tabindex="-1">
-    <ul>
-      <li (click)="onIsEditProject()">Edit</li>
-      <li (click)="deleteProject()">Delete</li>
-    </ul>
-</div>
+@if (contextMenuProject) {
+  <app-context-menu
+    [contextMenuCoords]="contextMenuCoords"
+    (editElement)="onIsEditProject()"
+    (deleteElement)="deleteProject()">
+  </app-context-menu>
+}

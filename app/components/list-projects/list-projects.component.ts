@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../interfaces/project';
@@ -8,15 +9,16 @@ import { UsersService } from '../../services/users.service';
 import { AddProjectFormComponent } from '../add-project-form/add-project-form.component';
 import { TasksService } from '../../services/tasks.service';
 import { ProjectTasksService } from '../../services/project-tasks.service';
-import { FormsModule } from '@angular/forms';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
 @Component({
   selector: 'app-list-projects',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     AddProjectFormComponent,
-    FormsModule
+    ContextMenuComponent
   ],
   providers: [
     TasksService,
@@ -37,6 +39,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   selectedProject: Project | undefined = undefined;
   contextMenuProject: Project | undefined = undefined;
+  contextMenuCoords: any | undefined = undefined;  // x, y
   isCreateProject: boolean = false;
   isEditProject: boolean = false;
   editTextProject: string = '';
@@ -77,24 +80,15 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   // Context menu
   onContextMenu(event: any, project: Project): void {
     event.preventDefault();
-    
     this.contextMenuProject = project;
-
-    const contextMenu = document.getElementById('contextMenu');
-    if (contextMenu) {
-      contextMenu.style.display = 'block';
-      contextMenu.style.left = event.pageX + 'px';
-      contextMenu.style.top = event.pageY + 'px';
-      contextMenu.focus();
-      contextMenu.addEventListener('blur', () => contextMenu.style.display = 'none');
-    }
+    this.contextMenuCoords = { x: event.pageX, y: event.pageY };
   }
 
   onIsEditProject(): void {
     if (this.contextMenuProject) {
       this.isEditProject = true;
       this.editTextProject = this.contextMenuProject?.title;
-      this.hideContextMenu();
+      this.contextMenuCoords = undefined;
     }
   }
 
@@ -128,14 +122,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
           }
         });
 
-      this.hideContextMenu();
-    }
-  }
-
-  hideContextMenu(): void {
-    const contextMenu = document.getElementById('contextMenu');
-    if (contextMenu) {
-      contextMenu.style.display = 'none';
+      this.contextMenuCoords = undefined;
     }
   }
 }
