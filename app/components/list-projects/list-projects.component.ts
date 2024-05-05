@@ -84,6 +84,11 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     this.contextMenuCoords = { x: event.pageX, y: event.pageY };
   }
 
+  cancelEditProject(event: any): void {
+    this.isEditProject = false;
+    event.stopPropagation();
+  }
+
   onIsEditProject(): void {
     if (this.contextMenuProject) {
       this.isEditProject = true;

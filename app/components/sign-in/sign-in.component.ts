@@ -29,6 +29,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
+    if (this.usersService.isAuthorizedUser()) {
+      this.usersService.logoutUserWithoutRoute();
+    }
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),

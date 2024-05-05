@@ -18,21 +18,24 @@ export class UsersService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private router: Router) {
-      this.setCurrentUser();  // установка текущего пользователя в сервисе
-  }
+    private router: Router) {}
 
 
   setCurrentUser(): void {
-    this.getUserbyId(this.getCookieByAuth())
-    .subscribe(user => {
-      UserService.setCurrentUser(user);
-    });
+    const idUser = this.getCookieByAuth();
+    if (idUser) {
+      this.getUserbyId(idUser)
+      .subscribe(user => UserService.setCurrentUser(user));
+    }
+  }
+
+  logoutUserWithoutRoute(): void {
+    this.deleteCookieByAuth();
+    UserService.logout();
   }
 
   logoutUser(): void {
-    this.deleteCookieByAuth();
-    UserService.logout();
+    this.logoutUserWithoutRoute();
     this.router.navigate(['/sign-in']);
   }
 

@@ -28,5 +28,7 @@ import { ProjectTasksService } from './services/project-tasks.service';
   ]
 })
 export class AppComponent {
-
+  constructor(private usersService: UsersService) {
+    this.usersService.setCurrentUser();  // установка текущего пользователя в сервисе
+  }
 }
