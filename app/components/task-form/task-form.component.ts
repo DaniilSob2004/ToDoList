@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -23,7 +23,8 @@ import { TasksService } from '../../services/tasks.service';
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
   private taskSubscription: Subscription | undefined;
-  @Output() responseCreateTask: EventEmitter<Task> = new EventEmitter<Task>();
+  @Output() responseForTask: EventEmitter<Task> = new EventEmitter<Task>();
+  @Input() editTaskObj: Task | undefined = undefined;
   form!: FormGroup;
   priorityArr: string[];
 
@@ -33,13 +34,29 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = new FormGroup({
+      id: new FormControl(''),
       title: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
       time: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       tags: new FormControl('', [Validators.required]),
-      priority: new FormControl('Low')
+      priority: new FormControl('')
     });
+
+    if (this.editTaskObj) {
+      const formatDate = DateTimeWork.getDateWithoutTime(this.editTaskObj.targetTime);
+      const formatTime = DateTimeWork.getTimeWithoutDate(this.editTaskObj.targetTime);
+      
+      this.form.patchValue({
+        id: this.editTaskObj.id,
+        title: this.editTaskObj.title,
+        date: formatDate,
+        time: formatTime,
+        description: this.editTaskObj.description,
+        tags: this.editTaskObj.tags.join(','),
+        priority: this.editTaskObj.priority
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -47,23 +64,28 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   cancelForm(): void {
-    this.responseCreateTask.emit(undefined);
+    this.responseForTask.emit(undefined);
   }
 
   onSubmit(): void {
-    const { title, date, time, description, tags, priority } = this.form.value;
+    const { id, title, date, time, description, tags, priority } = this.form.value;
     const task: Task = {
-      id: '',
+      id: id,
       title: title,
       targetTime: DateTimeWork.getMsByDateTimeStr(date, time),
       description: description,
       tags: tags.split(',').map((tag: string) => tag.trim()),
       priority: priority
     };
-    console.log(task.tags);
-    this.taskSubscription = this.tasksService.addTask(task)
+
+    if (!this.editTaskObj) {
+      this.taskSubscription = this.tasksService.addTask(task)
       .subscribe(task => {
-        this.responseCreateTask.emit(task);
+        this.responseForTask.emit(task);
       });
+    }
+    else {
+      this.responseForTask.emit(task);
+    }
   }
 }

@@ -29,12 +29,14 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
   private projectTaskSubscription: Subscription | undefined;
   private projectTaskDelSubscription: Subscription | undefined;
   private taskDelSubscription: Subscription | undefined;
+  private taskEditSubscription: Subscription | undefined;
 
   @Input() selectedProject: Project | undefined;
   tasks: Task[] = [];
-  isCreateTask: boolean = false;
   contextMenuTask: Task | undefined = undefined;
   contextMenuCoords: any | undefined = undefined;  // x, y
+  isCreateTask: boolean = false;
+  isEditTask: boolean = false;
 
   constructor(
     private tasksService: TasksService,
@@ -55,6 +57,7 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
     if (this.projectTaskSubscription) { this.projectTaskSubscription.unsubscribe(); }
     if (this.projectTaskDelSubscription) { this.projectTaskDelSubscription.unsubscribe(); }
     if (this.taskDelSubscription) { this.taskDelSubscription.unsubscribe(); }
+    if (this.taskEditSubscription) { this.taskEditSubscription.unsubscribe(); }
   }
 
   responseCreateTask(task: Task) {
@@ -77,13 +80,17 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
 
   onIsEditTask(): void {
     if (this.contextMenuTask) {
-      //this.isEditProject = true;
+      this.isEditTask = true;
       this.contextMenuCoords = undefined;
     }
   }
 
-  editTask(): void {
-    
+  responseEditTask(task: Task | undefined) {
+    this.isEditTask = false;
+    if (this.contextMenuTask && task) {
+      this.taskEditSubscription = this.tasksService.changeTask(this.contextMenuTask, task)
+        .subscribe(() => this.isEditTask = false);
+    }
   }
 
   deleteTask(): void {

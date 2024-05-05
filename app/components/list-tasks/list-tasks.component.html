@@ -1,6 +1,10 @@
 <section>
     <div class="tasks-block">
-        @if (selectedProject && !isCreateTask) {
+        @if (selectedProject) {
+            <h3 class="title">{{selectedProject.title}}</h3>
+        }
+
+        @if (selectedProject && !isCreateTask && !isEditTask) {
             <div
                 class="button tools-btn add-btn"
                 (click)="isCreateTask = true;">
@@ -9,9 +13,13 @@
         }
         
         @if (isCreateTask) {
-            <app-task-form (responseCreateTask)="responseCreateTask($event)"></app-task-form>
+            <app-task-form (responseForTask)="responseCreateTask($event)"></app-task-form>
+        } @else if (isEditTask) {
+            <app-task-form
+              (responseForTask)="responseEditTask($event)"
+              [editTaskObj]="contextMenuTask">
+            </app-task-form>
         } @else if (selectedProject) {
-            <h3 class="title">{{selectedProject.title}}</h3>
             @if (this.tasks.length) {
                 <div class="table-wrapper">
                     <table class="table table-dark table-striped caption-top">

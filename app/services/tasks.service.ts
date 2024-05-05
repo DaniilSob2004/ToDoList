@@ -48,4 +48,9 @@ export class TasksService {
       })
     );
   }
+
+  changeTask(task: Task, newTask: Task): Observable<Task> {
+    Object.assign(task, newTask);
+    return this.http.put<Task>(`${this.url}${task.id}`, newTask);
+  }
 }
