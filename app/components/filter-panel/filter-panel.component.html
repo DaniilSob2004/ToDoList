@@ -1,14 +1,14 @@
 <section>
     <input
         type="text"
+        (input)="onInputChanged($event)"
         placeholder="Search..." />
     <div class="search-block">
         <label>Search by: </label>
-        <select>
-            <option>Name</option>
-            <option>Description</option>
-            <option>Tags</option>
-            <option>Priority</option>
+        <select (change)="onSelectChanged($event)">
+            @for (searchBy of searchByArr; track $index) {
+                <option>{{searchBy}}</option>
+            }
         </select>
     </div>
 </section>

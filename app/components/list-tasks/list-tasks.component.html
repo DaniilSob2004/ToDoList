@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (task of tasks; track $index) {
+                            @for (task of tasks | filter : searchText : searchByValue; track $index) {
                                 <tr (contextmenu)="onContextMenu($event, task)">
                                     <th scope="row">{{$index + 1}}</th>
                                     <td>{{task.title}}</td>

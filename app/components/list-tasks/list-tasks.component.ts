@@ -6,6 +6,7 @@ import { Project } from '../../interfaces/project';
 import { TasksService } from '../../services/tasks.service';
 import { ProjectTasksService } from '../../services/project-tasks.service';
 import { DtStrByMsPipe } from '../../pipes/dt-str-by-ms.pipe';
+import { FilterPipe } from '../../pipes/filter.pipe';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
@@ -14,6 +15,7 @@ import { ContextMenuComponent } from '../context-menu/context-menu.component';
   standalone: true,
   imports: [
     DtStrByMsPipe,
+    FilterPipe,
     TaskFormComponent,
     ContextMenuComponent
   ],
@@ -32,6 +34,9 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
   private taskEditSubscription: Subscription | undefined;
 
   @Input() selectedProject: Project | undefined;
+  @Input() searchText: string = '';
+  @Input() searchByValue: string = '';
+
   tasks: Task[] = [];
   contextMenuTask: Task | undefined = undefined;
   contextMenuCoords: any | undefined = undefined;  // x, y

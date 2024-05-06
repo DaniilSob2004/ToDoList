@@ -25,6 +25,8 @@ import { Project } from '../../interfaces/project';
 })
 export class HomeComponent {
   selectedProject!: Project;
+  searchText: string = '';
+  searchByValue: string = 'title';
 
   constructor(public usersService: UsersService) {}
 
