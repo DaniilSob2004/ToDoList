@@ -57,9 +57,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.userSubscription = this.usersService
       .addUser(this.form.value)
-      .subscribe(newUser => {
-        this.usersService.signInUser(newUser);
-      });
+      .subscribe(newUser => this.usersService.signInUser(newUser));
   }
 
   checkConfirmPassword(): boolean | undefined {

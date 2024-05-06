@@ -3,10 +3,6 @@ section {
     max-width: 600px;
 }
 
-.back-btn {
-    width: fit-content;
-}
-
 input[type="date"],
 input[type="time"],
 .priority-block select {
@@ -18,9 +14,7 @@ input[type="time"],
 .priority-block {
     display: flex;
     align-items: center;
-}
-.priority-block label {
-    width: fit-content;
+    margin: 10px 0;
 }
 .priority-block select {
     padding: 7px;

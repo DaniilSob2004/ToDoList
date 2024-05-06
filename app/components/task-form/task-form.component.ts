@@ -69,6 +69,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const { id, title, date, time, description, tags, priority } = this.form.value;
+    
+    // подготавка объекта Task
     const task: Task = {
       id: id,
       title: title,
@@ -80,9 +82,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     if (!this.editTaskObj) {
       this.taskSubscription = this.tasksService.addTask(task)
-      .subscribe(task => {
-        this.responseForTask.emit(task);
-      });
+      .subscribe(task => this.responseForTask.emit(task));
     }
     else {
       this.responseForTask.emit(task);

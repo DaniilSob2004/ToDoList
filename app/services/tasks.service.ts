@@ -20,9 +20,7 @@ export class TasksService {
     return this.projectTasksService.getProjectTasks(projectId).pipe(
       switchMap(projectTasks => {
         return this.http.get<Task[]>(this.url).pipe(
-          map(tasks => {
-            return tasks.filter(task => projectTasks.some(pt => pt.idTask === task.id));
-          })
+          map(tasks => tasks.filter(task => projectTasks.some(pt => pt.idTask === task.id)))
         );
       })
     );

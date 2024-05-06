@@ -34,9 +34,7 @@ export class AddProjectFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.projectSubscription) {
-      this.projectSubscription.unsubscribe();
-    }
+    if (this.projectSubscription) { this.projectSubscription.unsubscribe(); }
   }
 
   cancelForm(): void {
@@ -46,8 +44,6 @@ export class AddProjectFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     const { title } = this.form.value;
     this.projectSubscription = this.projectsService.addProject(title)
-      .subscribe(project => {
-        this.responseAddProject.emit(project);
-      });
+      .subscribe(project => this.responseAddProject.emit(project));
   }
 }

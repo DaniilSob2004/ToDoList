@@ -20,6 +20,7 @@
                 </span>
             }
         </div>
+        
         <div>
             <label class="lock img-block" for="email">
                 <img src="../../../assets/images/email.png" alt="email"> 
@@ -34,6 +35,7 @@
                 <span class="error-text">Email is invalid</span>
             }
         </div> 
+        
         <div>
             <label class="lock img-block" for="password">
                 <img src="../../../assets/images/password.png" alt="password"> 
@@ -47,6 +49,7 @@
                 <span class="error-text">Password is invalid</span>
             }
         </div> 
+        
         <div>
             <label class="lock img-block" for="confirmPassword">
                 <img src="../../../assets/images/password.png" alt="confirmPassword"> 
@@ -60,12 +63,14 @@
                 <span class="error-text">Password mismatch</span>
             }
         </div> 
+        
         <div>
             <input
                 type="submit"
                 value="Register"
                 [disabled]="form.invalid || !checkConfirmPassword()" />
         </div>
+        
         <div>
             <div class="radio-check">   
                 <input

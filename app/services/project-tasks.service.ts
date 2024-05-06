@@ -37,12 +37,8 @@ export class ProjectTasksService {
   deleteProjectTaskByTaskId(taskId: string): Observable<ProjectTask | undefined> {
     return this.getProjectTaskByTaskId(taskId).pipe(
       switchMap(projectTask => {
-        if (projectTask) {
-          return this.deleteProjectTask(projectTask.id);
-        }
-        else {
-          return of(void 0);
-        }
+        if (projectTask) { return this.deleteProjectTask(projectTask.id); }
+        else { return of(void 0); }
       })
     );
   }

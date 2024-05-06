@@ -5,7 +5,9 @@
           (searchByValueChanged)="searchByValue = $event">
         </app-filter-panel>
         <div class="main">
-            <app-list-projects (projectSelected)="onProjectSelected($event)"></app-list-projects>
+            <app-list-projects
+              (projectSelected)="onProjectSelected($event)">
+            </app-list-projects>
             <app-list-tasks
               [selectedProject]="selectedProject"
               [searchText]="searchText"

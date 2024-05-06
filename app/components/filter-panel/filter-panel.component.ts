@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './filter-panel.component.css'
 })
 export class FilterPanelComponent {
+  // события отправляются родителю 'Home'
   @Output() searchTextChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() searchByValueChanged: EventEmitter<string> = new EventEmitter<string>();
 

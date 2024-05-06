@@ -1,7 +1,7 @@
 @if (contextMenuCoords) {
     <div #contextMenu
         class="context-menu"
-        tabindex="5"
+        tabindex="-1"
         [ngStyle]="{
             'display': 'block',
             'left': contextMenuCoords.x + 'px',
@@ -9,8 +9,8 @@
         }"
         (blur)="hide()">
         <ul>
-            <li (click)="this.editElement.emit();">Edit</li>
-            <li (click)="this.deleteElement.emit();">Delete</li>
+            <li (click)="this.editElement.emit()">Edit</li>
+            <li (click)="this.deleteElement.emit()">Delete</li>
         </ul>
     </div>
 }

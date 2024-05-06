@@ -22,10 +22,10 @@ export class UsersService {
 
 
   setCurrentUser(): void {
+    // установка текущего пользователя в сервисе
     const idUser = this.getCookieByAuth();
     if (idUser) {
-      this.getUserbyId(idUser)
-      .subscribe(user => UserService.setCurrentUser(user));
+      this.getUserbyId(idUser).subscribe(user => UserService.setCurrentUser(user));
     }
   }
 
@@ -86,7 +86,9 @@ export class UsersService {
 
   getUser(email: string, password: string): Observable<User | undefined> {
     return this.getUsers().pipe(
-      map(users => users.find(user => user.email === email && user.password === password))
+      map(users => users.find(user =>
+        user.email.toLowerCase() === email.toLowerCase() &&
+        user.password === password))
     );
   }
 

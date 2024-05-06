@@ -29,6 +29,10 @@ html, body {
     color: #d3d3d3;
 }
 
+.width-by-content {
+    width: fit-content;
+}
+
 .tools-btn {
     font-weight: bold;
 }

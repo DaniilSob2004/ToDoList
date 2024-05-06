@@ -6,7 +6,7 @@ export class DateTimeWork {
 
     static getMsByDateTimeStr(date: string, time: string): number {
         const newDate = new Date(date);
-        const [hours, minutes] = time.split(':').map(Number);
+        const [hours, minutes] = time.split(':').map(Number);  // получаем часы и минуты
         newDate.setHours(hours, minutes);
         return newDate.getTime();
     }

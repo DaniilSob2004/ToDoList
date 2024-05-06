@@ -14,12 +14,14 @@
         
         @if (isCreateTask) {
             <app-task-form (responseForTask)="responseCreateTask($event)"></app-task-form>
-        } @else if (isEditTask) {
+        }
+        @else if (isEditTask) {
             <app-task-form
               (responseForTask)="responseEditTask($event)"
               [editTaskObj]="contextMenuTask">
             </app-task-form>
-        } @else if (selectedProject) {
+        }
+        @else if (selectedProject) {
             @if (this.tasks.length) {
                 <div class="table-wrapper">
                     <table class="table table-dark table-striped caption-top">

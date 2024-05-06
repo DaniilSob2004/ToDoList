@@ -29,6 +29,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
+    // если пользователь авторизован и он попал на sign-in, то выходим из аккаунта
     if (this.usersService.isAuthorizedUser()) {
       this.usersService.logoutUserWithoutRoute();
     }
@@ -45,14 +46,11 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const { email, password } = this.form.value;
-    this.userSubscription = this.usersService.getUser(email, password)
+    this.userSubscription = this.usersService
+      .getUser(email, password)
       .subscribe(user => {
-        if (user) {
-          this.usersService.signInUser(user);
-        }
-        else {
-          this.isValid = false;
-        }
+        if (user) { this.usersService.signInUser(user); }
+        else { this.isValid = false; }
       });
   }
 }

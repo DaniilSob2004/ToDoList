@@ -34,6 +34,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   private tasksSubscription: Subscription | undefined;
   private projectTasksSubscription: Subscription | undefined;
   private editProjectSubscription: Subscription | undefined;
+  private delProjectSubscription: Subscription | undefined;
   
   @Output() projectSelected: EventEmitter<Project> = new EventEmitter<Project>();
   projects: Project[] = [];
@@ -51,11 +52,9 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     private projectTasksService: ProjectTasksService) {}
 
   ngOnInit(): void {
-    this.projectsSubscription = this.projectsService.getProjects(this.usersService.getCookieByAuth())
-      .subscribe(response => {
-        this.projects = response;
-        console.log(this.projects);
-      });
+    this.projectsSubscription = this.projectsService
+      .getProjects(this.usersService.getCookieByAuth())
+      .subscribe(response => this.projects = response);
   }
 
   ngOnDestroy(): void {
@@ -63,6 +62,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     if (this.tasksSubscription) { this.tasksSubscription.unsubscribe(); }
     if (this.projectTasksSubscription) { this.projectTasksSubscription.unsubscribe(); }
     if (this.editProjectSubscription) { this.editProjectSubscription.unsubscribe(); }
+    if (this.delProjectSubscription) { this.delProjectSubscription.unsubscribe(); }
   }
 
   onSelectedProject(project: Project | undefined): void {
@@ -81,7 +81,8 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   onContextMenu(event: any, project: Project): void {
     event.preventDefault();
     this.contextMenuProject = project;
-    this.contextMenuCoords = { x: event.pageX, y: event.pageY };
+    this.isEditProject = false;
+    this.contextMenuCoords = { x: event.pageX, y: event.pageY };  // координаты меню
   }
 
   cancelEditProject(event: any): void {
@@ -92,7 +93,7 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
   onIsEditProject(): void {
     if (this.contextMenuProject) {
       this.isEditProject = true;
-      this.editTextProject = this.contextMenuProject.title;
+      this.editTextProject = this.contextMenuProject.title;  // установка в поле значение title
       this.contextMenuCoords = undefined;
     }
   }
@@ -101,7 +102,10 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
     if (this.contextMenuProject) {
       this.editProjectSubscription = this.projectsService
         .changeProject(this.contextMenuProject, this.editTextProject)
-        .subscribe(() => this.isEditProject = false);
+        .subscribe(() => {
+          this.isEditProject = false;
+          this.contextMenuProject = undefined;
+        });
     }
   }
 
@@ -110,15 +114,18 @@ export class ListProjectsComponent implements OnInit, OnDestroy {
       const projectId = this.contextMenuProject.id;
 
       // удаление все задач связанных с этим проектом
-      this.tasksSubscription = this.tasksService.deleteTasks(projectId)
+      this.tasksSubscription = this.tasksService
+        .deleteTasks(projectId)
         .subscribe(tasks => console.log(tasks));
 
       // удаление связей из таблицы Project-Tasks
-      this.projectTasksSubscription = this.projectTasksService.deleteProjectTasks(projectId)
+      this.projectTasksSubscription = this.projectTasksService
+        .deleteProjectTasks(projectId)
         .subscribe(ptList => console.log(ptList));
       
       // удаление проекта
-      this.projectsService.deleteProject(projectId)
+      this.delProjectSubscription =this.projectsService
+        .deleteProject(projectId)
         .subscribe(delProject => {
           this.projects = this.projects.filter(proj => proj.id !== delProject.id);
           if (delProject.id === this.selectedProject?.id) {

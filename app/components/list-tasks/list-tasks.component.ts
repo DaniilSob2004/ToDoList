@@ -49,11 +49,9 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(): void {
     if (this.selectedProject) {
-      this.tasksSubscription = this.tasksService.getTasks(this.selectedProject.id)
-        .subscribe(tasks => {
-          this.tasks = tasks;
-          console.log(this.tasks);
-        });
+      this.tasksSubscription = this.tasksService
+        .getTasks(this.selectedProject.id)
+        .subscribe(tasks => this.tasks = tasks);
     }
   }
 
@@ -68,11 +66,9 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
   responseCreateTask(task: Task) {
     this.isCreateTask = false;
     if (task && this.selectedProject) {
-      this.projectTaskSubscription = this.projectTasksService.addProjectTask(this.selectedProject.id, task.id)
-        .subscribe(projectTask => {
-          console.log(projectTask);
-          this.tasks.push(task);
-        });
+      this.projectTaskSubscription = this.projectTasksService
+        .addProjectTask(this.selectedProject.id, task.id)
+        .subscribe(() => this.tasks.push(task));
     }
   }
 
@@ -93,7 +89,8 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
   responseEditTask(task: Task | undefined) {
     this.isEditTask = false;
     if (this.contextMenuTask && task) {
-      this.taskEditSubscription = this.tasksService.changeTask(this.contextMenuTask, task)
+      this.taskEditSubscription = this.tasksService
+        .changeTask(this.contextMenuTask, task)
         .subscribe(() => this.isEditTask = false);
     }
   }
@@ -104,16 +101,11 @@ export class ListTasksComponent implements OnChanges, OnDestroy {
 
       // удаление из таблицы Project-Tasks
       this.projectTaskDelSubscription = this.projectTasksService.deleteProjectTaskByTaskId(taskId)
-        .subscribe(projectTask => {
-          console.log(projectTask);
-        });
+        .subscribe(projectTask => console.log(projectTask));
 
       // удаление задачи
       this.taskDelSubscription = this.tasksService.deleteTask(taskId)
-        .subscribe(delTask => {
-          console.log(delTask);
-          this.tasks = this.tasks.filter(task => task.id !== delTask.id);
-        });
+        .subscribe(delTask => this.tasks = this.tasks.filter(task => task.id !== delTask.id));
 
       this.contextMenuCoords = undefined;
     }

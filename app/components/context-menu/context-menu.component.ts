@@ -1,6 +1,4 @@
 import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-
-import { Project } from '../../interfaces/project';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,9 +17,8 @@ export class ContextMenuComponent implements AfterViewChecked {
   @ViewChild('contextMenu') contextMenu!: ElementRef;
 
   ngAfterViewChecked(): void {
-    if (this.contextMenu) {
-      this.contextMenu.nativeElement.focus();
-    }
+    // устанавливаем фокус
+    if (this.contextMenu) { this.contextMenu.nativeElement.focus(); }
   }
 
   hide(): void {

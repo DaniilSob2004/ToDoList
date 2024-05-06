@@ -32,15 +32,12 @@ export class UserAccountNavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // подписка на изменения текущего пользователя и обновление userName
-    this.currentUserSubscription = UserService.CurrentUser$.subscribe(user => {
-      this.userName = user ? `, ${user.name}` : '';
-    });
+    this.currentUserSubscription = UserService.CurrentUser$
+      .subscribe(user => this.userName = user ? `, ${user.name}` : '');
   }
 
   ngOnDestroy(): void {
-    if (this.currentUserSubscription) {
-      this.currentUserSubscription.unsubscribe();
-    }
+    if (this.currentUserSubscription) { this.currentUserSubscription.unsubscribe(); }
   }
 
   checkAuthorization(): boolean {
