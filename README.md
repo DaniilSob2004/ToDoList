@@ -1,1 +1,7 @@
-# ToDoList
+![1](https://github.com/DaniilSob2004/ToDoList/assets/106149184/6e17e4ec-ce5d-4a33-84a3-6cedac668f63)
+![2](https://github.com/DaniilSob2004/ToDoList/assets/106149184/1274739c-6c0e-4c4d-b1bf-47f7fd9087f5)
+![3](https://github.com/DaniilSob2004/ToDoList/assets/106149184/1a184956-9d09-466f-92ae-9d4f026967c7)
+![4](https://github.com/DaniilSob2004/ToDoList/assets/106149184/0013a71f-513e-4921-8598-57dc669117e9)
+![5](https://github.com/DaniilSob2004/ToDoList/assets/106149184/a5530045-c69b-4a16-a6bb-510e92249f6f)
+![6](https://github.com/DaniilSob2004/ToDoList/assets/106149184/c287ad5e-d9d0-4daa-b968-6de8784d1b1a)
+![7](https://github.com/DaniilSob2004/ToDoList/assets/106149184/2dbac2e6-d2e0-4082-84d8-4dd7fd909540)
